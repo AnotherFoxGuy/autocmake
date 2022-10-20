@@ -1,15 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import sys
 
-
-if sys.version_info[0] == 2 and sys.version_info[1] < 7:
-    sys.stderr.write("ERROR: update.py requires at least Python 2.7\n")
-    sys.exit(-1)
-
-
-AUTOCMAKE_GITHUB_URL = 'https://github.com/dev-cafe/autocmake/raw/master/'
+AUTOCMAKE_GITHUB_URL = 'https://github.com/AnotherFoxGuy/autocmake/raw/master/'
 
 
 def licensing_info():
@@ -56,7 +50,7 @@ def fetch_modules(config, relative_path, download_directory):
     Assemble modules which will
     be included in CMakeLists.txt.
     """
-    from collections import Iterable, namedtuple, defaultdict
+    from collections import namedtuple, defaultdict
     from autocmake.extract import extract_list, to_d, to_l
     from autocmake.parse_rst import parse_cmake_module
 
@@ -130,7 +124,6 @@ def fetch_modules(config, relative_path, download_directory):
 def process_yaml(argv):
     from autocmake.parse_yaml import parse_yaml
     from autocmake.generate import gen_cmakelists, gen_setup
-    from autocmake.extract import extract_list
 
     project_root = argv[1]
     if not os.path.isdir(project_root):
@@ -287,22 +280,11 @@ def fetch_url(src, dst):
     """
     Fetch file from URL src and save it to dst.
     """
-    # we do not use the nicer sys.version_info.major
-    # for compatibility with Python < 2.7
-    if sys.version_info[0] > 2:
-        import urllib.request
-
-        class URLopener(urllib.request.FancyURLopener):
-            def http_error_default(self, url, fp, errcode, errmsg, headers):
-                sys.stderr.write("ERROR: could not fetch {0}\n".format(url))
-                sys.exit(-1)
-    else:
-        import urllib
-
-        class URLopener(urllib.FancyURLopener):
-            def http_error_default(self, url, fp, errcode, errmsg, headers):
-                sys.stderr.write("ERROR: could not fetch {0}\n".format(url))
-                sys.exit(-1)
+    import urllib.request
+    class URLopener(urllib.request.FancyURLopener):
+        def http_error_default(self, url, fp, errcode, errmsg, headers):
+            sys.stderr.write("ERROR: could not fetch {0}\n".format(url))
+            sys.exit(-1)
 
     dirname = os.path.dirname(dst)
     if dirname != '':
