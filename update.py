@@ -34,15 +34,15 @@ def print_progress_bar(text, done, total, width):
         sys.stdout.flush()
 
 
-def flat_add(l, x):
+def flat_add(list, x):
     if isinstance(x, int):
-        l.append(x)
-        return l
+        list.append(x)
+        return list
     elif isinstance(x, str):
-        l.append(x)
-        return l
+        list.append(x)
+        return list
     else:
-        return l + x
+        return list + x
 
 
 def fetch_modules(config, relative_path, download_directory):
@@ -281,6 +281,7 @@ def fetch_url(src, dst):
     Fetch file from URL src and save it to dst.
     """
     import urllib.request
+
     class URLopener(urllib.request.FancyURLopener):
         def http_error_default(self, url, fp, errcode, errmsg, headers):
             sys.stderr.write("ERROR: could not fetch {0}\n".format(url))

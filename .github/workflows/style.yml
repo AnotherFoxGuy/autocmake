@@ -1,0 +1,22 @@
+name: Run test
+on: [push, pull_request]
+jobs:
+  build:
+    name: Testing on ${{ matrix.os }}
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - run: pip install -r requirements.txt
+
+      - run: pycodestyle --ignore E501 update.py
+
+      - run: pycodestyle --ignore E501,E265,E741 autocmake --exclude autocmake/external/docopt.py

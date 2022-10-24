@@ -22,12 +22,6 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: pycodestyle --ignore E501 update.py
-
-      - run: |
-          pycodestyle --ignore E501,E265,E741 autocmake --exclude
-          autocmake/external/docopt.py
-
       - run: py.test -vv autocmake/*
 
       - run: py.test -vv test/test.py
