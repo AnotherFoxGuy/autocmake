@@ -10,7 +10,7 @@ below::
 
   name: numgrid
 
-  min_cmake_version: 2.8
+  min_cmake_version: 3.1
 
   default_build_type: release
 
@@ -75,7 +75,7 @@ Minimal example
 As a minimal example we take an ``autocmake.yml`` which only contains::
 
   name: minime
-  min_cmake_version: 2.8
+  min_cmake_version: 3.1
   language: C
 
 If you don't have the ``update.py`` script yet, you need to fetch it from the web::

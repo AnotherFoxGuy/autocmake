@@ -54,7 +54,7 @@ Now we edit ``cmake/autocmake.yml`` to look like this::
 
   name: hello
 
-  min_cmake_version: 2.8
+  min_cmake_version: 3.1
 
   language:
     - Fortran
