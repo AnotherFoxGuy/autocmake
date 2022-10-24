@@ -331,33 +331,23 @@ def fetch_url(src, dst):
     """
     Fetch file from URL src and save it to dst.
     """
-    # we do not use the nicer sys.version_info.major
-    # for compatibility with Python < 2.7
-    if sys.version_info[0] > 2:
-        import urllib.request
-
-        class URLopener(urllib.request.FancyURLopener):
-            def http_error_default(self, url, fp, errcode, errmsg, headers):
-                sys.stderr.write("ERROR: could not fetch {0}\n".format(url))
-                sys.exit(-1)
-
-    else:
-        import urllib
-
-        class URLopener(urllib.FancyURLopener):
-            def http_error_default(self, url, fp, errcode, errmsg, headers):
-                sys.stderr.write("ERROR: could not fetch {0}\n".format(url))
-                sys.exit(-1)
-
+    import urllib.request
+    import shutil
     dirname = os.path.dirname(dst)
     if dirname != "":
         if not os.path.isdir(dirname):
             os.makedirs(dirname)
 
-    opener = URLopener()
-    opener.retrieve(src, dst)
+    try:
+        with urllib.request.urlopen(src) as response, open(dst, 'wb') as out_file:
+            shutil.copyfileobj(response, out_file)
+    except urllib.error.HTTPError as e:
+        sys.stderr.write(f"\n\nERROR: could not fetch {src}, request failed with error {e.code} \n\t {e.reason}\n")
+        sys.exit(-1)
+    except urllib.error.URLError as e:
+        sys.stderr.write(f"\n\nERROR: could not fetch {src}, {e.reason}\n")
+        sys.exit(-1)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     check_for_yaml()
     main(sys.argv)
