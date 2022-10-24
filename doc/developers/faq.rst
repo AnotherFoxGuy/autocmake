@@ -73,7 +73,7 @@ Yes you can do that in ``autocmake.yml``. Here we for instance change the name t
   :emphasize-lines: 4
 
   name: myproject
-  min_cmake_version: 2.8
+  min_cmake_version: 3.1
   default_build_type: release
   setup_script: configure
   language:
