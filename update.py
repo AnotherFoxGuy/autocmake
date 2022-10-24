@@ -44,15 +44,15 @@ def print_progress_bar(text, done, total, width):
         sys.stdout.flush()
 
 
-def flat_add(l, x):
+def flat_add(lst, x):
     if isinstance(x, int):
-        l.append(x)
-        return l
+        lst.append(x)
+        return lst
     elif isinstance(x, str):
-        l.append(x)
-        return l
+        lst.append(x)
+        return lst
     else:
-        return l + x
+        return lst + x
 
 
 def fetch_modules(config, relative_path, download_directory):
@@ -347,6 +347,7 @@ def fetch_url(src, dst):
     except urllib.error.URLError as e:
         sys.stderr.write(f"\n\nERROR: could not fetch {src}, {e.reason}\n")
         sys.exit(-1)
+
 
 if __name__ == '__main__':
     check_for_yaml()
