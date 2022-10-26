@@ -1,3 +1,4 @@
 pycodestyle
 pytest
 pyyaml
+sphinx
